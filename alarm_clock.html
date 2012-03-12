@@ -1,0 +1,961 @@
+<html>
+<title>Online Alarm Clock</title>
+
+<style type="text/css">
+
+	#title_td {
+		border-bottom-style:solid;
+		border-color: #666666;
+	}
+
+	#title {
+	
+	
+		color: white;
+		font-family:"Showcard Gothic", Verdana;
+		font-size:64px;
+		text-shadow: 3px 3px #666666;
+	}
+
+	p.aboveclock {
+		font-family:"Arial", Verdana;
+		font-style:normal;
+		font-size:32px;
+		font-weight: bold;
+		text-decoration:underline;
+		text-align: center;
+	}
+	
+	p.alarm, p.alarm_s {
+		font-family:"Arial", Verdana;
+		font-style:normal;
+		font-size:24px;
+		font-weight: bold;
+		text-align: right;
+		margin-right: 16px;
+	}
+	
+	p.alarm {
+		margin-top: 16px;
+	}
+	
+	h3.time_rem {
+		font-family:"Arial", Verdana;
+		font-style:normal;
+		font-size:24px;
+		text-align: right;
+		margin-right: 16px;
+	}
+	
+	#select {
+		margin-left: 57px;
+	}
+	
+	#countcanvas{ 
+		margin-left: 56px;
+	}
+	
+	#timer1, #timer2, #timer3, #timer4 {
+		width: 40px;
+		font-weight: bold;
+		font-size:18px;
+	}
+	
+	button.minus {
+		margin-left: 74px;
+		margin-right: 16px;
+	}
+	
+	button.minus2 {
+		margin-left: 65px;
+		margin-right: 16px;
+	}
+	
+	button.start, button.snooze {
+		width: 160px;
+		height: 35px;
+		background: -moz-linear-gradient(top,  #FFEC8B,  #EEB422);
+		background: linear-gradient(top,  #FFEC8B,  #EEB422);
+		border-style: solid;
+		border-color: black;
+		border-radius: 8px;
+		font-family:Arial;
+		font-size:20px;
+		font-weight: bold;
+	}
+	
+	
+	button.snooze[disabled]:disabled {
+		color: #BBBBBB;
+		opacity: 0.65;
+	}
+	
+	
+	select.sound {
+		width:100px;
+		margin-bottom: 6px;
+		margin-left: 38px;
+	}
+
+</style>
+
+<body bgcolor='FFB90F' leftmargin="0px" topmargin="0px" marginwidth="0px" marginheight="0px" onLoad="checkRefresh();">
+
+<table border="0" id="tablemy" width="100%" align="center" cellpadding=0 cellspacing=0 >
+	<tr bgcolor="#34A1D8">
+            <td id='title_td' align="center" width="100%" height="130">
+				<p id='title'>Online Alarm Clock</p>
+            </td>
+	</tr>
+	
+	<tr>
+		<table border="0" id="tablemy2" width="100%" align="center" cellpadding=0 cellspacing=0 >
+	
+			<tr>
+	
+			<td align="center" width="40%">
+			
+				<table border="0" id="tablemy3" width="100%" align="center" cellpadding=0 cellspacing=0 >
+					
+					<tr valign='bottom' height='70'>
+						<td valign='bottom'><p class='aboveclock'>Current time is:</p></td>
+					</tr>
+					<tr>
+						<td height='470'>
+							<canvas  align="center" width="580" height="470" id="clockcanvas">Your browser does not support the canvas element.</canvas>
+						</td>
+					</tr>
+				
+				</table>
+				
+			</td>
+			
+			
+			<td align="center" >
+				<table border="0" id="tablemy3" width="100%" align="center" cellpadding=0 cellspacing=0 >
+					<tr height='35'>
+					</tr>
+				
+					<tr>
+						<td width="40%" height='200'>
+							<p class='alarm'>Alarm me at :</p>
+						</td>
+						<td valign='bottom' height='200'>
+							<table border="0" width="100%" align="center" cellpadding=0 cellspacing=0 >
+								<tr>
+									<td align='center'>
+										<canvas align='center' width="303" height="80" id="timercanvas">Your browser does not support the canvas element.</canvas>
+									</td>
+								</tr>
+								
+								
+								<tr height='50'>
+									<td>
+										<button id="timer1" type="button" value="-" class='minus' onclick="decreaseAlarmHours();">-</button>
+										<button id="timer2" type="button" value="+" onclick="increaseAlarmHours();">+</button>
+										<button id="timer3" type="button" value="-" class='minus2' onclick="decreaseAlarmMinutes();">-</button>
+										<button id="timer4" type="button" value="+" onclick="increaseAlarmMinutes();">+</button>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					
+					
+					
+					<tr>
+						<td valign='bottom' width="40%" height='70'>
+							<p class='alarm_s'>Alarm sound:</p>
+						</td>
+						<td  valign='bottom' height='70' id='select_td'>
+							<select  valign='bottom' id='select' width='250' class='sound'>
+								<option value="Rooster" onclick='chooseSound(0);'>Rooster</option>
+								<option value="Classic" onclick='chooseSound(1);'>Classic</option>
+							</select>
+						</td>
+					</tr>
+					
+					
+					<tr id="remaining" height='120'>
+					</tr>
+					
+					<tr>
+						<td align='right' valign='bottom' height='70'>
+							<button id="start_stop" type="button" class='start' onclick='startStopCancel();'>Start</button>
+						</td>
+						<td align='center' valign='bottom' height='70'>
+							<button disabled='disabled'id="snooze" type="button" value="snooze" class='snooze' onclick="disableSnooze();">Snooze</button>
+						</td>
+					</tr>
+					
+					
+					
+					<tr id="sound_tr" height='0'>
+					</tr>
+						
+				</table>
+			
+			</td>
+			
+			</tr>
+			
+			
+		</table>
+	</tr>
+	
+
+</table>
+
+
+
+
+
+
+<script type="text/javascript">
+	var mycanvas = document.getElementById('clockcanvas'),
+		ctx= mycanvas.getContext('2d');
+		
+		ctx.beginPath();
+		ctx.fillStyle= 'black';
+		ctx.arc(292	, 240, 200, 0, Math.PI*2, true);
+		ctx.fill();
+		ctx.closePath();
+		
+		ctx.beginPath();
+		ctx.fillStyle= 'white';
+		ctx.arc(292, 240, 195, 0, Math.PI*2, true);
+		ctx.fill();
+		ctx.closePath();
+		
+		ctx.beginPath();
+		ctx.fillStyle= 'black';
+		ctx.arc(292, 240, 6, 0, Math.PI*2, true);
+		ctx.fill();
+		ctx.closePath();
+		
+		ctx.beginPath();
+		ctx.fillStyle= 'black';
+		ctx.font= 'bold 32px Arial, arial';
+		ctx.fillText('1',370, 98,200);
+		ctx.fillText('2',436, 163,200);
+		ctx.fillText('3',463, 250,200);
+		ctx.fillText('4',438, 340,200);
+		ctx.fillText('5',373, 405,200);
+		ctx.fillText('6',284, 428,200);
+		ctx.fillText('7',196, 405,200);
+		ctx.fillText('8',128, 335,200);
+		ctx.fillText('9',105, 250,200);
+		ctx.fillText('10',120, 166,200);
+		ctx.fillText('11',185, 105,200);
+		ctx.fillText('12',273, 77,200);
+		
+		
+		var current_Time = new Date(),
+			currenthours = current_Time.getHours(),
+			currentminutes = current_Time.getMinutes(),
+			currentseconds = current_Time.getSeconds();
+		
+		//getCurrentTime
+		setInterval(function() {
+			current_Time = new Date(),
+			currenthours = current_Time.getHours(),
+			currentminutes = current_Time.getMinutes(),
+			currentseconds = current_Time.getSeconds();
+		}, 1000);	
+		
+		
+		
+		
+		var x_sec=0,
+			x_min=0,
+			y_min=0,
+			x_hour=0,
+			y_hour=0,
+			y_sec=0,
+			x_sec_er=292,
+			y_sec_er=90,
+			x_min_er=292,
+			y_min_er=90,
+			x_hour_er=292,
+			y_hour_er=90,
+			sec=0,
+			min=0,
+			hour=0,
+			angle_sec = 0,
+			angle_min = 0,
+			angle_hour = 0,
+			min_interval = 59,
+			hour_interval = 359;
+			
+			
+			
+			
+			
+		//initialize clock
+		angle_hour =((currenthours%12)*10 + Math.floor(currentminutes/6))*(Math.PI/60) ;//////////////////////////
+		angle_min = currentminutes*Math.PI/30 ;
+		angle_sec = currentseconds*Math.PI/30 ;
+		min_interval = 59 - currentseconds;
+		hour_interval = 359 - ((currentminutes%6)*60) - currentseconds;
+		
+		
+		//hours
+		function clockHours() {
+			
+			erase(x_hour_er, y_hour_er);
+			
+			x_hour = 292 + Math.sin(angle_hour)*100;
+			y_hour = 240 - Math.cos(angle_hour)*100;
+			x_hour_er = 292 + Math.sin(angle_hour)*102;
+			y_hour_er = 240 - Math.cos(angle_hour)*102;
+			
+			angle_hour = angle_hour + Math.PI/60 ;
+			
+			drawHours(x_hour, y_hour);
+		
+		}
+		function intervalClockHours(){
+		
+			if(hour_interval == 0) {
+				clockHours();
+				hour_interval = 360;
+			}
+			
+			hour_interval--;
+		
+		}
+		clockHours();
+		setInterval(intervalClockHours, 1000);
+		
+		
+		
+		
+		//minutes
+		function clockMinutes() {
+					
+			erase(x_min_er, y_min_er);
+			
+			x_min = 292 + Math.sin(angle_min)*150;
+			y_min = 240 - Math.cos(angle_min)*150;
+			x_min_er = 292 + Math.sin(angle_min)*152;
+			y_min_er = 240 - Math.cos(angle_min)*152;
+			
+			angle_min = angle_min + Math.PI/30 ;
+			
+			drawHours(x_hour, y_hour);
+			drawMinutes(x_min, y_min);
+			
+		}
+		function intervalClockMinutes(){
+		
+			if(min_interval == 0) {
+				clockMinutes();
+				min_interval = 60;
+			}
+			
+			min_interval--;
+		
+		}
+		clockMinutes();
+		setInterval(intervalClockMinutes, 1000);
+		
+			
+			
+		
+		
+		
+		//seconds
+		function clockSeconds() {
+		
+			erase(x_sec_er, y_sec_er);
+			
+			x_sec = 292 + Math.sin(angle_sec)*150;
+			y_sec = 240 - Math.cos(angle_sec)*150;
+			x_sec_er = 292 + Math.sin(angle_sec)*152;
+			y_sec_er = 240 - Math.cos(angle_sec)*152;
+			
+			
+			angle_sec = angle_sec + Math.PI/30 ;
+			
+			drawHours(x_hour, y_hour);
+			drawMinutes(x_min, y_min);
+			drawSeconds(x_sec, y_sec);
+				
+			
+			//redraw center
+			ctx.beginPath();
+			ctx.fillStyle= 'black';
+			ctx.arc(292, 240, 6, 0, Math.PI*2, true);
+			ctx.fill();
+			ctx.closePath();
+		
+		
+		}
+		clockSeconds();
+		setInterval(clockSeconds, 1000);
+		
+		
+		function erase(a, b){
+			if ((x_sec != x_min) || (y_sec != y_min) ) {
+				ctx.beginPath();
+				ctx.lineWidth=8;
+				ctx.moveTo(292,240);
+				ctx.lineTo(a,b);
+				ctx.strokeStyle='white';
+				ctx.stroke();
+				ctx.closePath();
+			}	
+		}
+		
+		function drawHours(a, b){
+			ctx.beginPath();
+			ctx.lineWidth=6;
+			ctx.moveTo(292,240);
+			ctx.lineTo(a,b);
+			ctx.strokeStyle='black';
+			ctx.stroke();
+			ctx.closePath();
+		}
+		
+		function drawMinutes(a, b){
+			ctx.beginPath();
+			ctx.lineWidth=4;
+			ctx.moveTo(292,240);
+			ctx.lineTo(a,b);
+			ctx.strokeStyle='black';
+			ctx.stroke();
+			ctx.closePath();
+		}
+		
+		function drawSeconds(a, b){
+			ctx.beginPath();
+			ctx.lineWidth=2;
+			ctx.moveTo(292,240);
+			ctx.lineTo(a,b);
+			ctx.strokeStyle='red';
+			ctx.stroke();
+			ctx.closePath();
+		}
+		
+</script>
+
+			
+		
+<script type="text/javascript">		
+		var timercanvas = document.getElementById('timercanvas'),
+		timerctx= timercanvas.getContext('2d');
+		
+		timerctx.fillStyle= 'white';
+		timerctx.strokeStyle= 'black';
+		timerctx.strokeRect(0, 0, 303, 80);
+		timerctx.fillRect(1, 1, 301, 78);
+		
+		
+		timerctx.fillStyle= 'black';
+		timerctx.strokeStyle= 'black';
+		timerctx.strokeRect(5, 5, 293, 70);
+		timerctx.fillRect(5, 5, 293, 70);
+		
+		
+		
+		var alarmHours1=0,
+		alarmHours2=0,
+		alarmMinutes1=0,
+		alarmMinutes2=0;
+		
+		drawAlarm();
+		
+		function drawAlarm() {
+			timerctx.beginPath();
+			timerctx.fillStyle= 'red';
+			timerctx.font= 'bold 90px Arial, arial';
+			timerctx.fillText(alarmHours1,10, 72,200);
+			timerctx.fillText(alarmHours2,70, 72,200);
+			timerctx.fillText(':',135, 67,200);
+			timerctx.fillText(alarmMinutes1,180, 72,200);
+			timerctx.fillText(alarmMinutes2,240, 72,200);
+			timerctx.closePath();
+		}
+		
+		
+		function eraseAlarm(){
+			timerctx.fillStyle= 'black';
+			timerctx.strokeStyle= 'black';
+			timerctx.strokeRect(5, 5, 293, 70);
+			timerctx.fillRect(5, 5, 293, 70);
+		}
+		
+		function increaseAlarmHours() {
+			eraseAlarm();
+		
+			if (alarmHours1 < 2) {
+				if (alarmHours2 < 9)
+					alarmHours2++;
+				else{
+					alarmHours1++;
+					alarmHours2 = 0;
+				}
+			}
+			else {
+				if (alarmHours2 < 3)	
+					alarmHours2++;
+				else {
+					alarmHours1 = 0;
+					alarmHours2 = 0;
+				}
+			}
+			
+			drawAlarm();
+		}
+		
+		
+		function increaseAlarmMinutes() {
+			eraseAlarm();
+		
+			if (alarmMinutes1 < 5) {
+				if (alarmMinutes2 < 9)
+					alarmMinutes2++;
+				else{
+					alarmMinutes1++;
+					alarmMinutes2 = 0;
+				}
+			}
+			else {
+				if (alarmMinutes2 < 9)	
+					alarmMinutes2++;
+				else {
+					alarmMinutes1 = 0;
+					alarmMinutes2 = 0;
+				}
+			}
+			
+			drawAlarm();
+		}
+		
+		
+		function decreaseAlarmHours() {
+			eraseAlarm();
+		
+			if (alarmHours1 == 0 && alarmHours2 == 0) {
+				alarmHours1 = 2;
+				alarmHours2 = 3;
+			}
+			else {
+				if (alarmHours2 > 0)	
+					alarmHours2--;
+				else {
+					alarmHours1--;
+					alarmHours2 = 9;
+				}
+			}
+			
+			drawAlarm();
+		}
+		
+		
+		function decreaseAlarmMinutes() {
+			eraseAlarm();
+		
+			if (alarmMinutes1 == 0 && alarmMinutes2 == 0) {
+				alarmMinutes1 = 5;
+				alarmMinutes2 = 9;
+			}
+			else {
+				if (alarmMinutes2 > 0)	
+					alarmMinutes2--;
+				else {
+					alarmMinutes1--;
+					alarmMinutes2 = 9;
+				}
+			}
+			
+			drawAlarm();
+		}
+		
+		
+		
+		var sound = 0;
+		
+		function chooseSound(x) {
+			if(x == 0)	sound = 0;
+			else sound = 1;
+		}
+		
+		var drawCountdown = false;
+		
+		function startStopCancel() {
+			if (document.getElementById('start_stop').innerHTML == 'Start') {
+				document.getElementById('start_stop').innerHTML = 'Cancel';
+				disablePlusMinusButtons();
+				document.getElementById('select').disabled = 'disabled';
+				document.getElementById('remaining').innerHTML = 
+					"<td  width=\"40%\" height='120'; valign='bottom'>"+
+						"<h3 class='time_rem'>Time Remaining :</h3>"+
+					"</td>"+
+						
+					"<td height='120' valign='bottom'>"+
+						"<canvas align='center' width=\"307\" height=\"70\" id=\"countcanvas\">Your browser does not support the canvas element.</canvas>"+
+					"</td>";
+				
+				
+				drawCountdown = true;	//will appear
+				drawRemaining(false);  //no snooze
+			}
+			else {
+				document.getElementById('start_stop').innerHTML = 'Start';
+				document.getElementById('remaining').innerHTML = 
+					"<td  width=\"40%\" height='120'; valign='bottom'>"+
+						"<h3 class='alarm'></h3>"+
+					"</td>"+
+						
+					"<td height='120' valign='bottom'>"+
+					"</td>";
+				disableSound();
+				enablePlusMinusButtons();
+				document.getElementById('select').disabled = '';
+				clearInterval(countdownIntervalId);
+				eraseCountdownVars();
+				drawCountdown = false;	//will not appear
+				//drawRemaining(false);//////////////
+			}
+		}
+		
+		
+		function disablePlusMinusButtons() {
+			document.getElementById('timer1').disabled = 'disabled';
+			document.getElementById('timer2').disabled = 'disabled';
+			document.getElementById('timer3').disabled = 'disabled';
+			document.getElementById('timer4').disabled = 'disabled';
+		}
+		
+		function enablePlusMinusButtons() {
+			document.getElementById('timer1').disabled = '';
+			document.getElementById('timer2').disabled = '';
+			document.getElementById('timer3').disabled = '';
+			document.getElementById('timer4').disabled = '';
+		}
+		
+		
+		var myAudio = new Audio(''); ;
+		
+		function enableSound(){
+			if (sound == 0){
+				myAudio = new Audio('rooster_crow.ogg'); 
+				myAudio.addEventListener('ended', function() {
+					this.currentTime = 0;
+					this.play();
+					}, false);
+				myAudio.play();
+
+			}
+			else {
+				myAudio = new Audio('alarm_clock_1.ogg'); 
+				myAudio.addEventListener('ended', function() {
+					this.currentTime = 0;
+					this.play();
+					}, false);
+				myAudio.play();
+			}
+		}
+		
+		function disableSound(){
+			myAudio.pause();
+		}
+		
+		
+</script>
+
+
+
+<script type="text/javascript">		
+	
+	
+	var countHours1=0,
+		countHours2=0,
+		countMinutes1=0,
+		countMinutes2=0,
+		countSeconds1=0,
+		countSeconds2=0;
+		
+		
+	function eraseCountdownVars(){
+		countHours1=0,
+		countHours2=0,
+		countMinutes1=0,
+		countMinutes2=0,
+		countSeconds1=0,
+		countSeconds2=0;
+	}
+	
+	
+	var countdownIntervalId = 0;
+	
+	function drawRemaining(snooze) {
+	
+		if(drawCountdown) {
+	
+			var countcanvas = document.getElementById('countcanvas'),
+			countctx= countcanvas.getContext('2d');
+		
+			countctx.fillStyle= 'black';
+			countctx.strokeStyle= 'black';
+			countctx.strokeRect(0, 0, 305, 60);
+			countctx.fillRect(0, 0, 305, 60);
+			countctx.fillStyle= 'white';
+			countctx.strokeStyle= 'white';
+			countctx.strokeRect(5, 5, 295, 50);
+			countctx.fillRect(5, 5, 295, 50);
+	
+	
+			
+			var	color = 'black';
+				
+				
+			var flag=0;
+			
+			
+			getCountDown(snooze);
+			
+			
+	
+			countctx.beginPath();
+			countctx.fillStyle = color;
+			countctx.font= 'bold 48px Arial, arial';
+			countctx.fillText(countHours1,17, 48,200);
+			countctx.fillText(countHours2,52, 48,200);
+			countctx.fillText(':',92, 43,200);
+			countctx.fillText(countMinutes1,122, 48,200);
+			countctx.fillText(countMinutes2,157, 48,200);
+			countctx.fillText(':',197, 43,200);
+			countctx.fillText(countSeconds1,227, 48,200);
+			countctx.fillText(countSeconds2,262, 48,200);
+			countctx.closePath();
+	
+			countdownIntervalId = setInterval(function() {
+		
+				if (countSeconds1 != 0 || countSeconds2 != 0) {
+					if (countSeconds2 > 0)	
+						countSeconds2--;
+					else {
+						countSeconds1--;
+						countSeconds2 = 9;
+					}
+				}
+				else if (countMinutes1 != 0 || countMinutes2 != 0) {
+					if (countMinutes2 > 0)	
+						countMinutes2--;
+					else {
+						countMinutes1--;
+						countMinutes2 = 9;
+					}
+				
+					countSeconds1 = 5;
+					countSeconds2 = 9;
+				}
+				else{
+					if (countHours1 != 0 || countHours2 != 0) {
+						if (countHours2 > 0)	
+							countHours2--;
+						else {
+							countHours1--;
+							countHours2 = 9;
+						}
+						
+						if (countMinutes2 > 0)	
+							countMinutes2--;
+						else {
+							countMinutes1--;
+							countMinutes2 = 9;
+						}
+				
+						countMinutes1 = 5;
+						countMinutes2 = 9;
+				
+						countSeconds1 = 5;
+						countSeconds2 = 9;
+				
+					}
+			
+			
+				}
+		
+				if (countHours1 == 0 && countHours2 == 0 && countMinutes1 == 0 && countMinutes2 == 0 && countSeconds1 == 0 && countSeconds2 == 0)  {
+					if(color == 'black')	color = 'red';
+					else color = 'black';
+			
+					if(flag == 0){
+						enableSnooze();
+						enableSound();
+						document.getElementById('start_stop').innerHTML = 'Stop';
+						flag = 1;
+					}
+				}
+				
+		
+				countctx.fillStyle= 'black';
+				countctx.strokeStyle= 'black';
+				countctx.strokeRect(0, 0, 305, 60);
+				countctx.fillRect(0, 0, 305, 60);
+				countctx.fillStyle= 'white';
+				countctx.strokeStyle= 'white';
+				countctx.strokeRect(5, 5, 295, 50);
+				countctx.fillRect(5, 5, 295, 50);
+				
+				countctx.beginPath();
+				countctx.fillStyle = color;
+				countctx.font= 'bold 48px Arial, arial';
+				countctx.fillText(countHours1,17, 48,200);
+				countctx.fillText(countHours2,52, 48,200);
+				countctx.fillText(':',92, 43,200);
+				countctx.fillText(countMinutes1,122, 48,200);
+				countctx.fillText(countMinutes2,157, 48,200);
+				countctx.fillText(':',197, 43,200);
+				countctx.fillText(countSeconds1,227, 48,200);
+				countctx.fillText(countSeconds2,262, 48,200);
+				countctx.closePath();
+			
+				}, 1000);
+		
+		
+		}
+		
+	}
+		
+		
+	function getCountDown(snooze){
+			
+		//calculate remaining time.
+		var tempHours = -1,
+			tempMinutes = -1,
+			tempSeconds = -1,
+			negativeMinutes = false,
+			zeroHours = false,
+			zeroMinutes= false;
+		
+
+		if(!snooze) {
+			
+			if(alarmHours1 == '0')
+				tempHours = parseInt(alarmHours2) - currenthours;
+			else
+				tempHours = parseInt(alarmHours1+""+alarmHours2) - currenthours;
+				
+				
+				
+			if(alarmMinutes1 == '0')
+				tempMinutes = parseInt(alarmMinutes2) - currentminutes;
+			else
+				tempMinutes = parseInt(alarmMinutes1+""+alarmMinutes2) - currentminutes;
+					
+					
+			tempSeconds = 60 - currentseconds;   
+				
+				
+			if(tempMinutes < 0) {
+				tempMinutes = 60 + tempMinutes;
+				negativeMinutes= true;
+			}
+			else if(tempMinutes == 0)
+				zeroMinutes= true;
+			
+			
+				
+			if(tempHours < 0) {
+				tempHours = 24 + tempHours;
+			}
+			else if(tempHours == 0)
+				zeroHours = true;
+				
+				
+			if(negativeMinutes || zeroMinutes) {
+				if(!zeroHours)
+					tempHours--;
+				else {
+					tempHours = 23;
+				}
+			}
+			
+			
+			if(tempSeconds == 60) 
+				tempSeconds = 0;
+			else {
+				if(tempMinutes != 0)
+					tempMinutes--;
+				else {
+					if(tempSeconds != 0)
+						tempMinutes = 59;
+				}
+			}
+			
+					
+				
+			//build digits
+			tempSeconds = tempSeconds + '';
+			tempMinutes = tempMinutes + '';
+			tempHours = tempHours + '';
+					
+			if(tempSeconds.length == 1)
+				countSeconds2 = tempSeconds;
+			else {
+				countSeconds1 = tempSeconds.charAt(0);
+				countSeconds2 = tempSeconds.charAt(1);
+			}
+				
+			if(tempMinutes.length == 1)
+				countMinutes2 = tempMinutes;
+			else {
+				countMinutes1 = tempMinutes.charAt(0);
+				countMinutes2 = tempMinutes.charAt(1);
+			}
+				
+			if(tempHours.length == 1)
+				countHours2 = tempHours;
+			else {
+				countHours1 = tempHours.charAt(0);
+				countHours2 = tempHours.charAt(1);
+			}
+				
+		}	
+		else {
+			countSeconds1 = '0';
+			countSeconds2 = '0';
+			countMinutes1 = '1';
+			countMinutes2 = '0';
+			countHours1 = '0';
+			countHours2 = '0';
+		}
+			
+	}
+		
+		
+		
+	function enableSnooze() {
+		document.getElementById('snooze').disabled = '';
+	}
+		
+	function disableSnooze() {
+		document.getElementById('snooze').disabled = 'disabled';
+		disableSound();
+		document.getElementById('start_stop').innerHTML = 'Cancel';
+		clearInterval(countdownIntervalId);
+		eraseCountdownVars();
+		drawCountdown = true;	//will appear
+		drawRemaining(true);  //snooze
+	}
+
+	function checkRefresh() {
+		document.getElementById('snooze').disabled = 'disabled';
+		disableSound();
+		enablePlusMinusButtons();
+		document.getElementById('select_td').innerHTML = 
+					"<select align='bottom' id='select' width='250' class='sound'>"+
+						"<option value='Rooster' onclick='chooseSound(0);'>Rooster</option>"+
+						"<option value='Classic' onclick='chooseSound(1);'>Classic</option>"+
+					"</select>";
+	}
+		
+</script>
+
+
+</body>
+</html>
